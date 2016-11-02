@@ -8,6 +8,8 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import ly.generalassemb.drewmahrt.shoppinglistdetailview.setup.DetailFragment;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String ITEM_ID_KEY = "itemIdKey";
@@ -17,10 +19,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        TextView name = (TextView) findViewById(R.id.detail_name);
-        TextView description = (TextView) findViewById(R.id.detail_description);
-        TextView price = (TextView) findViewById(R.id.detail_price);
-        TextView category = (TextView) findViewById(R.id.detail_category);
 
         // Get ID of selected item
         int selectedItemId = getIntent().getIntExtra(ITEM_ID_KEY, -1);
@@ -42,13 +40,10 @@ public class DetailActivity extends AppCompatActivity {
             finish();
         }
 
-        // Populate the TextViews
-        name.setText(selectedItem.getName());
-        description.setText(selectedItem.getDescription());
-        category.setText(selectedItem.getType());
+        DetailFragment detailFragment = DetailFragment.newInstance(selectedItemId);
 
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        double priceValue = Double.valueOf(selectedItem.getPrice());
-        price.setText(currencyFormat.format(priceValue));
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.detail_fragment_container,detailFragment)
+                .commit();
     }
 }

@@ -14,9 +14,17 @@ import java.util.List;
  */
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingItemViewHolder> {
-    private List<ShoppingItem> mShoppingItems;
 
-    public ShoppingListAdapter(List<ShoppingItem> shoppingItems) {
+    private List<ShoppingItem> mShoppingItems;
+    private OnShoppingItemSelectedListener mOnShoppingItemSelectedListener;
+
+    public interface OnShoppingItemSelectedListener {
+        void onShoppingItemSelected (int itemId);
+    }
+
+    public ShoppingListAdapter(List<ShoppingItem> shoppingItems,
+                               OnShoppingItemSelectedListener onShoppingItemSelectedListener) {
+        mOnShoppingItemSelectedListener = onShoppingItemSelectedListener;
         mShoppingItems = shoppingItems;
     }
 
@@ -36,17 +44,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingItemViewHo
         holder.mNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get a reference to the MainActivity as a Context
-                Context mainActivity = holder.mNameTextView.getContext();
-
-                // Create the intent
-                Intent intent = new Intent(mainActivity, DetailActivity.class);
-
-                // Add the ID as an extra
-                intent.putExtra(DetailActivity.ITEM_ID_KEY, currentItem.getId());
-
-                // Start the detail activity
-                mainActivity.startActivity(intent);
+                mOnShoppingItemSelectedListener.onShoppingItemSelected(currentItem.getId());
             }
         });
     }
