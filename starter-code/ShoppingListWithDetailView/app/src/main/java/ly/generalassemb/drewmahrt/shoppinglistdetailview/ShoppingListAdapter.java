@@ -30,7 +30,8 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingItemViewHo
 
     @Override
     public ShoppingItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ShoppingItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1,parent,false));
+        return new ShoppingItemViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.shopping_item_layout,parent,false));
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingItemViewHo
         holder.mNameTextView.setText(currentItem.getName());
 
         // Add an OnClickListener that launches DetailActivity and passes it the item's ID
-        holder.mNameTextView.setOnClickListener(new View.OnClickListener() {
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mOnShoppingItemSelectedListener.onShoppingItemSelected(currentItem.getId());
